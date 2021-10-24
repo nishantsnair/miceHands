@@ -1,10 +1,20 @@
 @echo off & title %~nx0 & color 5F
-
+@REM        BG              FG
+    @REM 0 = Black       8 = Gray
+    @REM 1 = Blue        9 = Light Blue
+    @REM 2 = Green       A = Light Green
+    @REM 3 = Aqua        B = Light Aqua
+    @REM 4 = Red         C = Light Red
+    @REM 5 = Purple      D = Light Purple
+    @REM 6 = Yellow      E = Light Yellow
+    @REM 7 = White       F = Bright White
+@REM @set pithon = .venv\Scripts\python
+@REM @set pyp = .venv\l\Scripts\pip
 goto :DOES_PYTHON_EXIST
 
 :DOES_PYTHON_EXIST
-python -V | find /v "Python" >NUL 2>NUL && (goto :PYTHON_DOES_NOT_EXIST)
-python -V | find "Python"    >NUL 2>NUL && (goto :PYTHON_DOES_EXIST)
+py -V | find /v "Python" >NUL 2>NUL && (goto :PYTHON_DOES_NOT_EXIST)
+py -V | find "Python"    >NUL 2>NUL && (goto :PYTHON_DOES_EXIST)
 goto :PauseClosing
 
 :PYTHON_DOES_NOT_EXIST
@@ -21,10 +31,13 @@ goto :VENV_SETUP
 
 :VENV_SETUP
 if exist .venv\ (
+    echo virtual environment detected, Activating
     call .venv\Scripts\activate
-    call python detectPose.py
+    echo virtual environment activated
+    call python gui.py
 
 ) else (
+    echo virtual environment not found
     echo Setting up venv
     call py -m pip install virtualenv
     call py -m venv .venv
