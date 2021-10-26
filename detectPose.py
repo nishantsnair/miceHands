@@ -34,16 +34,17 @@ with mp_pose.Pose(
         # Draw the pose annotation on the image.
         image.flags.writeable = True
         image = cv2.cvtColor(image, cv2.COLOR_RGB2BGR)
-        for id, landmark in enumerate(results.pose_landmarks.landmark):
-            if id ==15:
-                indX, indY = int(landmark.x*w), int(landmark.y*h)
-                cv2.circle(image, (indX,indY),5,(255,0,0),2)
-                if indY < h*heightToCrossOnTheWayUp:
-                    handsAreUp = True
-                elif indY > h*heightToCrossOnTheWayDown and handsAreUp:
-                    handsAreUp = False
-                    count += 1
-                    print(count)
+        if results.pose_landmarks is not None:
+            for id, landmark in enumerate(results.pose_landmarks.landmark):
+                if id ==15:
+                    indX, indY = int(landmark.x*w), int(landmark.y*h)
+                    cv2.circle(image, (indX,indY),5,(255,0,0),2)
+                    if indY < h*heightToCrossOnTheWayUp:
+                        handsAreUp = True
+                    elif indY > h*heightToCrossOnTheWayDown and handsAreUp:
+                        handsAreUp = False
+                        count += 1
+                        print(count)
         
         uB=0
         lB=h
